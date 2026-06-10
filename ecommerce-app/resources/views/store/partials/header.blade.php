@@ -29,15 +29,73 @@
             </a>
 
             <div class="flex items-center justify-end gap-4">
-                @auth
-                    <span class="label-upper hidden text-luxe-ink sm:inline">{{ Auth::user()->name }}</span>
-                    <form method="POST" action="{{ route('logout') }}" class="hidden sm:inline">
-                        @csrf
-                        <button type="submit" class="label-upper hover:text-luxe-gold">Logout</button>
-                    </form>
-                @else
-                    <a href="{{ route('login') }}" class="label-upper hidden hover:text-luxe-gold sm:inline">Account</a>
-                @endauth
+                <div class="relative hidden sm:block">
+                    <button
+                        type="button"
+                        @click="userMenuOpen = !userMenuOpen"
+                        class="flex items-center gap-2 text-left"
+                    >
+                        <span class="btn-icon !h-9 !w-9">
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                        </span>
+                        <span class="hidden md:block">
+                            <span class="label-upper block text-luxe-ink">{{ Auth::user()?->name ?? 'Account' }}</span>
+                            @auth
+                                <span class="text-[10px] uppercase tracking-widest text-luxe-muted">Logout</span>
+                            @endauth
+                        </span>
+                        <svg class="h-3 w-3 text-luxe-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+
+                    <div
+                        x-show="userMenuOpen"
+                        x-cloak
+                        @click.outside="userMenuOpen = false"
+                        class="absolute right-0 z-50 mt-3 w-64 border border-luxe-ink/10 bg-luxe-cream shadow-lg"
+                    >
+                        <div class="h-1 bg-luxe-gold"></div>
+                        <nav class="py-2">
+                            @auth
+                                <a href="{{ route('account.profile') }}" class="flex items-center gap-3 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-luxe-ink hover:bg-luxe-sand">
+                                    <svg class="h-4 w-4 text-luxe-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                    My Account
+                                </a>
+                            @else
+                                <a href="{{ route('login') }}" class="flex items-center gap-3 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-luxe-ink hover:bg-luxe-sand">
+                                    <svg class="h-4 w-4 text-luxe-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                                    Login
+                                </a>
+                            @endauth
+                            <a href="{{ route('wishlist') }}" class="flex items-center gap-3 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-luxe-ink hover:bg-luxe-sand">
+                                <svg class="h-4 w-4 text-luxe-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                                My Wishlist
+                            </a>
+                            <a href="{{ route('compare') }}" class="flex items-center gap-3 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-luxe-ink hover:bg-luxe-sand">
+                                <svg class="h-4 w-4 text-luxe-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+                                Compare
+                            </a>
+                            <a href="{{ route('checkout') }}" class="flex items-center gap-3 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-luxe-ink hover:bg-luxe-sand">
+                                <svg class="h-4 w-4 text-luxe-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 13l4 4L19 7"/></svg>
+                                Checkout
+                            </a>
+                            @guest
+                                <a href="{{ route('register') }}" class="flex items-center gap-3 px-5 py-3 text-xs font-semibold uppercase tracking-wider text-luxe-ink hover:bg-luxe-sand">
+                                    <svg class="h-4 w-4 text-luxe-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
+                                    Create an Account
+                                </a>
+                            @else
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="flex w-full items-center gap-3 px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider text-luxe-ink hover:bg-luxe-sand">
+                                        <svg class="h-4 w-4 text-luxe-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                                        Logout
+                                    </button>
+                                </form>
+                            @endguest
+                        </nav>
+                    </div>
+                </div>
+
                 <a href="{{ route('cart.index') }}" class="relative flex items-center gap-2">
                     <span class="label-upper">Bag</span>
                     @if ($cartCount > 0)
@@ -80,12 +138,16 @@
             <a href="{{ route('pages.about') }}" class="label-upper mt-4">Hakkımızda & İletişim</a>
             <a href="{{ route('pages.faq') }}" class="font-display text-2xl">FAQ</a>
             @auth
+                <a href="{{ route('account.profile') }}" class="font-display text-2xl">My Account</a>
+                <a href="{{ route('account.reviews') }}" class="font-display text-2xl">My Reviews</a>
+                <a href="{{ route('checkout') }}" class="font-display text-2xl">Checkout</a>
                 <form method="POST" action="{{ route('logout') }}" class="mt-4">
                     @csrf
                     <button type="submit" class="label-upper text-luxe-muted hover:text-luxe-gold">Logout</button>
                 </form>
             @else
-                <a href="{{ route('login') }}" class="label-upper mt-4">Account</a>
+                <a href="{{ route('login') }}" class="label-upper mt-4">Login</a>
+                <a href="{{ route('register') }}" class="label-upper">Create Account</a>
             @endauth
         </nav>
     </div>

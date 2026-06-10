@@ -19,6 +19,7 @@
                     @csrf
                     <button type="submit" class="w-full bg-luxe-gold py-2.5 text-[10px] font-bold uppercase tracking-widest text-luxe-ink transition hover:opacity-90">Add to Bag</button>
                 </form>
+                <a href="{{ route('cart.add.link', $product) }}" class="flex items-center justify-center border border-luxe-gold/40 px-3 text-[10px] font-bold uppercase tracking-widest text-luxe-gold transition hover:bg-luxe-gold hover:text-luxe-ink" title="Add via link">+</a>
             </div>
         </div>
     </div>
@@ -33,10 +34,13 @@
                 @include('store.partials.star-rating', ['rating' => $product->displayRating(), 'size' => 'sm'])
                 <span class="text-xs text-luxe-muted">{{ $product->displayReviewCount() }}</span>
             </div>
-            <form action="{{ route('cart.add', $product) }}" method="POST" class="mt-3 md:hidden">
-                @csrf
-                <button type="submit" class="text-[10px] font-bold uppercase tracking-widest text-luxe-gold hover:text-luxe-ink">+ Add to Bag</button>
-            </form>
+            <div class="mt-3 flex flex-wrap gap-3 md:hidden">
+                <form action="{{ route('cart.add', $product) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="text-[10px] font-bold uppercase tracking-widest text-luxe-gold hover:text-luxe-ink">+ Add to Bag</button>
+                </form>
+                <a href="{{ route('cart.add.link', $product) }}" class="text-[10px] font-bold uppercase tracking-widest text-luxe-muted hover:text-luxe-ink">Quick Add</a>
+            </div>
         </div>
         <div class="shrink-0 text-right">
             <p class="text-sm font-semibold text-luxe-ink">${{ number_format($product->price, 2) }}</p>

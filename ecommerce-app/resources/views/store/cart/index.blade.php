@@ -70,7 +70,7 @@
                     <span class="font-display text-xl">Total</span>
                     <span class="font-display text-2xl">${{ number_format($total, 2) }}</span>
                 </div>
-                <button type="button" class="btn-gold mt-8 w-full">Proceed to Checkout</button>
+                <a href="{{ route('checkout') }}" class="btn-gold mt-8 block w-full text-center">Proceed to Checkout</a>
                 <a href="{{ route('shop.index') }}" class="mt-4 block text-center text-xs uppercase tracking-widest text-luxe-muted hover:text-luxe-ink">Continue Shopping</a>
             </div>
         </div>

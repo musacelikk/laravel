@@ -8,7 +8,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 </head>
-<body x-data="{ menuOpen: false, searchOpen: false }">
+<body x-data="{ menuOpen: false, searchOpen: false, userMenuOpen: false }">
 
     @include('store.partials.header')
 
