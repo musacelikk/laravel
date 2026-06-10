@@ -22,20 +22,6 @@ class AdminController extends Controller
         ]);
     }
 
-    public function products(): View
-    {
-        return view('admin.products', [
-            'products' => Product::query()->with('category')->latest()->get(),
-        ]);
-    }
-
-    public function categories(): View
-    {
-        return view('admin.categories', [
-            'categories' => Category::query()->withCount('products')->orderBy('title')->get(),
-        ]);
-    }
-
     public function orders(): View
     {
         return view('admin.orders', [

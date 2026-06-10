@@ -12,7 +12,8 @@ class ShopController extends Controller
     public function index(Request $request): View
     {
         $products = Product::query()
-            ->when($request->filled('q'), fn ($query) => $query->where('name', 'like', '%'.$request->q.'%'))
+            ->where('status', 'active')
+            ->when($request->filled('q'), fn ($query) => $query->where('title', 'like', '%'.$request->q.'%'))
             ->when($request->filled('category'), function ($query) use ($request) {
                 $query->whereHas('category', fn ($q) => $q->where('slug', $request->category));
             })
@@ -28,13 +29,14 @@ class ShopController extends Controller
     public function category(Category $category): View
     {
         $products = Product::query()
+            ->where('status', 'active')
             ->where('category_id', $category->id)
             ->latest()
             ->paginate(12);
 
         return view('store.shop.index', [
             'products' => $products,
-            'title' => $category->name,
+            'title' => $category->title,
             'activeCategory' => $category,
         ]);
     }
@@ -42,6 +44,7 @@ class ShopController extends Controller
     public function sales(): View
     {
         $products = Product::query()
+            ->where('status', 'active')
             ->whereNotNull('compare_price')
             ->whereColumn('compare_price', '>', 'price')
             ->latest()

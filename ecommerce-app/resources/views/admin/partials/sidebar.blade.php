@@ -43,13 +43,13 @@
                 {{-- E-Commerce (working links) --}}
                 <li class="nav-header">E-COMMERCE</li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.products') }}" class="nav-link {{ request()->routeIs('admin.products') ? 'active' : '' }}">
+                    <a href="{{ route('admin.products.index') }}" class="nav-link {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-box"></i>
                         <p>Products</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.categories') }}" class="nav-link {{ request()->routeIs('admin.categories') ? 'active' : '' }}">
+                    <a href="{{ route('admin.categories.index') }}" class="nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tags"></i>
                         <p>Categories</p>
                     </a>

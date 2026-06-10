@@ -15,8 +15,7 @@
             <div class="card-header">
                 <h3 class="card-title">All Products</h3>
                 <div class="card-tools">
-                    <button type="button" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Add Product</button>
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                    <a href="{{ route('admin.products.create') }}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Add Product</a>
                 </div>
             </div>
             <div class="card-body table-responsive p-0">
@@ -25,7 +24,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Image</th>
-                            <th>Name</th>
+                            <th>Title</th>
                             <th>Category</th>
                             <th>Price</th>
                             <th>Stock</th>
@@ -34,16 +33,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($products as $product)
+                        @forelse ($products as $product)
                             <tr>
                                 <td>{{ $product->id }}</td>
                                 <td><img src="{{ $product->image }}" alt="" class="img-size-32"></td>
                                 <td>
-                                    {{ $product->name }}
+                                    {{ $product->title }}
                                     @if ($product->is_new)<span class="badge badge-danger ml-1">NEW</span>@endif
                                     @if ($product->is_deal)<span class="badge badge-warning ml-1">SALE</span>@endif
                                 </td>
-                                <td><span class="badge badge-info">{{ $product->category->name }}</span></td>
+                                <td><span class="badge badge-info">{{ $product->category->title }}</span></td>
                                 <td>
                                     ${{ number_format($product->price, 2) }}
                                     @if ($product->compare_price)
@@ -51,28 +50,32 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if ($product->stock > 20)
-                                        <span class="badge badge-success">{{ $product->stock }}</span>
-                                    @elseif ($product->stock > 0)
-                                        <span class="badge badge-warning">{{ $product->stock }}</span>
+                                    @if ($product->quantity > 20)
+                                        <span class="badge badge-success">{{ $product->quantity }}</span>
+                                    @elseif ($product->quantity > 0)
+                                        <span class="badge badge-warning">{{ $product->quantity }}</span>
                                     @else
                                         <span class="badge badge-danger">Out</span>
                                     @endif
                                 </td>
                                 <td>
-                                    @if ($product->is_featured)
-                                        <span class="badge badge-primary">Featured</span>
-                                    @else
-                                        <span class="badge badge-secondary">Active</span>
-                                    @endif
+                                    <span class="badge badge-{{ $product->status === 'active' ? 'success' : 'secondary' }}">{{ $product->status }}</span>
                                 </td>
                                 <td>
-                                    <button class="btn btn-xs btn-default" title="Edit"><i class="fas fa-edit"></i></button>
-                                    <button class="btn btn-xs btn-default" title="Delete"><i class="fas fa-trash text-danger"></i></button>
+                                    <a href="{{ route('admin.products.edit', $product) }}" class="btn btn-xs btn-primary" title="Edit"><i class="fas fa-edit"></i></a>
+                                    <form action="{{ route('admin.products.destroy', $product) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this product?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-xs btn-danger" title="Delete"><i class="fas fa-trash"></i></button>
+                                    </form>
                                     <a href="{{ route('products.show', $product) }}" class="btn btn-xs btn-default" title="View" target="_blank"><i class="fas fa-eye"></i></a>
                                 </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="8" class="text-center text-muted py-4">No products yet. <a href="{{ route('admin.products.create') }}">Add one</a></td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>

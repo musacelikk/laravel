@@ -171,7 +171,7 @@
                 </div>
             </div>
             <div class="card-footer clearfix">
-                <a href="{{ route('admin.products') }}" class="btn btn-sm btn-info float-right">View All Products</a>
+                <a href="{{ route('admin.products.index') }}" class="btn btn-sm btn-info float-right">View All Products</a>
             </div>
         </div>
     </div>

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
@@ -28,9 +30,10 @@ Route::post('/newsletter', [PageController::class, 'subscribe'])->name('pages.ne
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
-    Route::get('/products', [AdminController::class, 'products'])->name('products');
-    Route::get('/categories', [AdminController::class, 'categories'])->name('categories');
     Route::get('/orders', [AdminController::class, 'orders'])->name('orders');
+
+    Route::resource('categories', CategoryController::class)->except(['show']);
+    Route::resource('products', AdminProductController::class)->except(['show']);
 });
 
 Route::middleware([
