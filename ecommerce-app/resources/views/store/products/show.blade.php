@@ -18,6 +18,7 @@
 <section class="mx-auto max-w-[1400px] px-6 py-12" x-data="{ selectedSize: '{{ $product->sizes[0] ?? '' }}', selectedColor: '{{ $product->colors[0] ?? '#1a1814' }}', qty: 1, activeImage: '{{ $galleryImages[0] ?? $product->imageUrl() }}' }">
     <div class="grid gap-12 lg:grid-cols-2 lg:gap-20">
         <div>
+            <p class="label-upper mb-3">Product Image Gallery</p>
             <div class="relative bg-luxe-sand">
                 @if ($product->is_new)
                     <span class="absolute left-0 top-0 z-10 bg-luxe-ink px-4 py-2 text-[10px] font-semibold uppercase tracking-widest text-luxe-cream">New</span>
@@ -25,15 +26,23 @@
                 @if ($discount = $product->discountPercent())
                     <span class="absolute right-0 top-0 z-10 bg-luxe-gold px-4 py-2 text-[10px] font-semibold uppercase tracking-widest text-luxe-ink">-{{ $discount }}%</span>
                 @endif
-                <img :src="activeImage" alt="{{ $product->name }}" class="aspect-[4/5] w-full object-cover">
+                <img :src="activeImage" alt="{{ $product->name }}" class="aspect-[4/5] w-full object-cover transition duration-300">
             </div>
-            @if (count($galleryImages) > 1)
-                <div class="mt-4 flex gap-2 overflow-x-auto">
-                    @foreach ($galleryImages as $image)
-                        <button type="button" @click="activeImage = '{{ $image }}'" class="shrink-0 border border-luxe-ink/10 p-0.5" :class="activeImage === '{{ $image }}' ? 'ring-2 ring-luxe-gold' : ''">
-                            <img src="{{ $image }}" alt="" class="h-16 w-16 object-cover">
-                        </button>
-                    @endforeach
+            @if (count($galleryImages) > 0)
+                <div class="mt-4">
+                    <p class="mb-2 text-xs uppercase tracking-widest text-luxe-muted">{{ count($galleryImages) }} {{ Str::plural('image', count($galleryImages)) }}</p>
+                    <div class="flex gap-2 overflow-x-auto scrollbar-hide pb-1">
+                        @foreach ($galleryImages as $index => $image)
+                            <button
+                                type="button"
+                                @click="activeImage = '{{ $image }}'"
+                                class="shrink-0 overflow-hidden border-2 transition"
+                                :class="activeImage === '{{ $image }}' ? 'border-luxe-gold' : 'border-luxe-ink/10 opacity-70 hover:opacity-100'"
+                            >
+                                <img src="{{ $image }}" alt="Gallery {{ $index + 1 }}" class="h-20 w-20 object-cover md:h-24 md:w-24">
+                            </button>
+                        @endforeach
+                    </div>
                 </div>
             @endif
         </div>

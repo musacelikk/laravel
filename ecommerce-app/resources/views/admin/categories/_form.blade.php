@@ -15,7 +15,7 @@
 <div class="form-group">
     <label for="parent_id">Parent Category (Sub Category)</label>
     <select name="parent_id" id="parent_id" class="form-control">
-        <option value="0" {{ old('parent_id', $category?->parent_id ?? 0) == 0 ? 'selected' : '' }}>None (Top Level)</option>
+        <option value="" {{ !old('parent_id', $category?->parent_id) ? 'selected' : '' }}>None (Top Level)</option>
         @foreach ($parentOptions as $option)
             <option value="{{ $option['id'] }}" {{ old('parent_id', $category?->parent_id) == $option['id'] ? 'selected' : '' }}>{{ $option['title'] }}</option>
         @endforeach

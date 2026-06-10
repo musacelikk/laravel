@@ -50,7 +50,7 @@
                                 <td>{{ $category->id }}</td>
                                 <td>
                                     @if ($category->parent_id)
-                                        <small class="text-muted">↳</small>
+                                        <small class="text-muted">↳ sub</small>
                                     @endif
                                     {{ $category->title }}
                                 </td>

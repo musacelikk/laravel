@@ -33,7 +33,7 @@ class CategoryController extends Controller
     {
         $validated = $this->validateCategory($request);
 
-        $validated['parent_id'] = $validated['parent_id'] ?? 0;
+        $validated['parent_id'] = ! empty($validated['parent_id']) ? $validated['parent_id'] : null;
         $validated['slug'] = $validated['slug'] ?: Str::slug($validated['title']);
 
         if ($request->hasFile('image')) {
@@ -66,7 +66,7 @@ class CategoryController extends Controller
     {
         $validated = $this->validateCategory($request, $category);
 
-        $validated['parent_id'] = $validated['parent_id'] ?? 0;
+        $validated['parent_id'] = ! empty($validated['parent_id']) ? $validated['parent_id'] : null;
         $validated['slug'] = $validated['slug'] ?: Str::slug($validated['title']);
 
         if ($request->hasFile('image')) {

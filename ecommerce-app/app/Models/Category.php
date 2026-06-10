@@ -97,20 +97,28 @@ class Category extends Model
 
     public static function tree(): Collection
     {
-        $all = self::query()->withCount('products')->orderBy('title')->get()->keyBy('id');
+        $all = self::query()
+            ->where('status', 'active')
+            ->withCount('products')
+            ->orderBy('title')
+            ->get()
+            ->keyBy('id');
 
-        return $all->where('parent_id', 0)->map(function ($category) use ($all) {
+        return $all->filter(fn ($category) => ! $category->parent_id)->map(function ($category) use ($all) {
             $category->setRelation('children', self::buildChildren($category->id, $all));
 
             return $category;
         })->values();
     }
 
-    public static function flatTree(?int $excludeId = null, int $parentId = 0, string $prefix = ''): array
+    public static function flatTree(?int $excludeId = null, ?int $parentId = null, string $prefix = ''): array
     {
         $options = [];
 
-        foreach (self::query()->where('parent_id', $parentId)->orderBy('title')->get() as $category) {
+        $query = self::query()->orderBy('title');
+        $parentId === null ? $query->whereNull('parent_id') : $query->where('parent_id', $parentId);
+
+        foreach ($query->get() as $category) {
             if ($excludeId && $category->id === $excludeId) {
                 continue;
             }

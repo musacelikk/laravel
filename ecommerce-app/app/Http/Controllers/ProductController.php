@@ -15,6 +15,7 @@ class ProductController extends Controller
             'product' => $product,
             'galleryImages' => $product->allImages(),
             'relatedProducts' => Product::query()
+                ->where('status', 'active')
                 ->where('category_id', $product->category_id)
                 ->where('id', '!=', $product->id)
                 ->take(4)
