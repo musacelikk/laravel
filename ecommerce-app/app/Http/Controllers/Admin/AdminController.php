@@ -8,7 +8,6 @@ use App\Models\Comment;
 use App\Models\Faq;
 use App\Models\Message;
 use App\Models\Product;
-use App\Models\Setting;
 use App\Models\Social;
 use App\Models\User;
 use Illuminate\View\View;
@@ -67,13 +66,6 @@ class AdminController extends Controller
     {
         return view('admin.social.index', [
             'socials' => Social::query()->latest()->get(),
-        ]);
-    }
-
-    public function settings(): View
-    {
-        return view('admin.settings.index', [
-            'setting' => Setting::query()->first(),
         ]);
     }
 

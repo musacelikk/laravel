@@ -12,9 +12,20 @@ class Comment extends Model
         'rate',
         'product_id',
         'user_id',
+        'reviewer_name',
+        'reviewer_email',
         'ip',
         'status',
     ];
+
+    public function displayName(): string
+    {
+        if ($this->reviewer_name) {
+            return $this->reviewer_name;
+        }
+
+        return $this->user?->name ?? 'Guest';
+    }
 
     public function product(): BelongsTo
     {

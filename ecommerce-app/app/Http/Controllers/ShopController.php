@@ -13,6 +13,8 @@ class ShopController extends Controller
     {
         $products = Product::query()
             ->where('status', 'active')
+            ->withReviewStats()
+            ->with('category')
             ->when($request->filled('q'), fn ($query) => $query->where('title', 'like', '%'.$request->q.'%'))
             ->when($request->filled('category'), function ($query) use ($request) {
                 $query->whereHas('category', fn ($q) => $q->where('slug', $request->category));
@@ -28,16 +30,25 @@ class ShopController extends Controller
 
     public function category(Category $category): View
     {
+        $category->load(['children' => fn ($q) => $q->where('status', 'active')->withCount('products'), 'parent']);
+
         $products = Product::query()
             ->where('status', 'active')
-            ->where('category_id', $category->id)
+            ->withReviewStats()
+            ->with('category')
+            ->whereIn('category_id', $category->productScopeIds())
             ->latest()
             ->paginate(12);
+
+        $parentCategory = $category->parent_id ? $category->parent : $category;
+        $subCategories = $parentCategory->children()->where('status', 'active')->withCount('products')->orderBy('title')->get();
 
         return view('store.shop.index', [
             'products' => $products,
             'title' => $category->title,
             'activeCategory' => $category,
+            'parentCategory' => $parentCategory,
+            'subCategories' => $subCategories,
         ]);
     }
 
@@ -45,6 +56,8 @@ class ShopController extends Controller
     {
         $products = Product::query()
             ->where('status', 'active')
+            ->withReviewStats()
+            ->with('category')
             ->whereNotNull('compare_price')
             ->whereColumn('compare_price', '>', 'price')
             ->latest()

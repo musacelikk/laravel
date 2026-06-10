@@ -11,10 +11,14 @@
                     <a href="{{ route('home') }}" class="hover:text-luxe-cream">Home</a>
                     <span class="mx-2">/</span>
                     <a href="{{ route('shop.index') }}" class="hover:text-luxe-cream">Shop</a>
+                    @if ($activeCategory->parent_id && isset($parentCategory))
+                        <span class="mx-2">/</span>
+                        <a href="{{ route('shop.category', $parentCategory) }}" class="hover:text-luxe-cream">{{ $parentCategory->title }}</a>
+                    @endif
                     <span class="mx-2">/</span>
-                    <span>{{ $activeCategory->name }}</span>
+                    <span>{{ $activeCategory->title }}</span>
                 </nav>
-                <h1 class="heading-section mt-6 !text-luxe-cream">{{ $activeCategory->name }}</h1>
+                <h1 class="heading-section mt-6 !text-luxe-cream">{{ $activeCategory->title }}</h1>
                 <p class="mt-4 max-w-md text-sm leading-relaxed text-luxe-cream/70">{{ $activeCategory->tagline() }}</p>
                 <p class="mt-6 label-upper !text-luxe-cream/50">{{ $products->total() }} pieces available</p>
             </div>
@@ -53,8 +57,12 @@
 @endif
 
 <section class="border-b border-luxe-ink/10 px-6 py-5">
-    <div class="mx-auto max-w-[1400px]">
-        @include('store.partials.category-pills')
+    <div class="mx-auto max-w-[1400px] space-y-3">
+        @if (isset($subCategories) && $subCategories->isNotEmpty())
+            @include('store.partials.category-sub-pills')
+        @else
+            @include('store.partials.category-pills')
+        @endif
     </div>
 </section>
 

@@ -20,8 +20,9 @@ class AdminDataSeeder extends Seeder
             'address' => 'Istanbul, Turkey',
             'phone' => '+90 212 000 00 00',
             'email' => 'info@e-shop.com',
-            'aboutus' => 'We curate timeless pieces for modern living.',
-            'contact' => 'Reach us via email or phone during business hours.',
+            'aboutus' => '<p>E-SHOP, zamansız parçalar ve özenle seçilmiş koleksiyonlar sunar. Kalite ve müşteri memnuniyeti önceliğimizdir.</p>',
+            'contact' => '<p>Merkez ofisimiz İstanbul\'dadır. Hafta içi 09:00–18:00 arasında bize ulaşabilirsiniz.</p>',
+            'references' => '<p>Referanslarımız ve iş ortaklarımız hakkında bilgi için bizimle iletişime geçin.</p>',
             'status' => 'active',
         ]);
 

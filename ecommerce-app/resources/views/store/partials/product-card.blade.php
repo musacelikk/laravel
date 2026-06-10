@@ -29,6 +29,10 @@
                 {{ $product->name }}
             </a>
             <a href="{{ route('shop.category', $product->category) }}" class="mt-1 block text-xs text-luxe-muted transition hover:text-luxe-gold">{{ $product->category->name }}</a>
+            <div class="mt-2 flex items-center gap-2">
+                @include('store.partials.star-rating', ['rating' => $product->displayRating(), 'size' => 'sm'])
+                <span class="text-xs text-luxe-muted">{{ $product->displayReviewCount() }}</span>
+            </div>
             <form action="{{ route('cart.add', $product) }}" method="POST" class="mt-3 md:hidden">
                 @csrf
                 <button type="submit" class="text-[10px] font-bold uppercase tracking-widest text-luxe-gold hover:text-luxe-ink">+ Add to Bag</button>

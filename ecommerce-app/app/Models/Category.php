@@ -95,6 +95,31 @@ class Category extends Model
         return $this->status === 'active';
     }
 
+    public function isParent(): bool
+    {
+        return ! $this->parent_id;
+    }
+
+    /** @return array<int> */
+    public function idsForProductFilter(): array
+    {
+        return array_values(array_unique(array_merge(
+            [$this->id],
+            self::query()->where('parent_id', $this->id)->pluck('id')->all(),
+            $this->parent_id ? [$this->parent_id] : []
+        )));
+    }
+
+    /** Products scoped to this category (subcategory = exact; parent = includes children). */
+    public function productScopeIds(): array
+    {
+        if ($this->children()->exists()) {
+            return array_merge([$this->id], $this->children()->pluck('id')->all());
+        }
+
+        return [$this->id];
+    }
+
     public static function tree(): Collection
     {
         $all = self::query()

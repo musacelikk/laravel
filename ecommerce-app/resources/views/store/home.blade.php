@@ -76,4 +76,28 @@
     </div>
 </section>
 @endif
+
+{{-- Contact messages preview --}}
+@if ($recentMessages->isNotEmpty())
+<section class="border-t border-luxe-ink/10 bg-white px-6 py-16">
+    <div class="mx-auto max-w-[1400px]">
+        <div class="flex items-end justify-between border-b border-luxe-ink/10 pb-6">
+            <div>
+                <p class="label-upper">Community</p>
+                <h2 class="heading-section mt-2">Recent Messages</h2>
+            </div>
+            <a href="{{ route('pages.about') }}#contact" class="label-upper hover:text-luxe-gold">Bize Ulaşın</a>
+        </div>
+        <div class="mt-8 grid gap-4 md:grid-cols-3">
+            @foreach ($recentMessages as $msg)
+                <div class="border border-luxe-ink/10 p-5">
+                    <p class="font-display text-lg text-luxe-ink">{{ $msg->name }}</p>
+                    <p class="mt-2 text-sm text-luxe-muted line-clamp-3">{{ $msg->message }}</p>
+                    <p class="mt-3 text-xs uppercase tracking-widest text-luxe-muted">{{ $msg->created_at?->diffForHumans() }}</p>
+                </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+@endif
 @endsection

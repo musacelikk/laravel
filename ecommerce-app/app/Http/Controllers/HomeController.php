@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Message;
 use App\Models\Product;
 use Illuminate\View\View;
 
@@ -15,6 +16,7 @@ class HomeController extends Controller
             'categoryTree' => Category::tree(),
             'latestProducts' => Product::query()
                 ->where('status', 'active')
+                ->withReviewStats()
                 ->with('category')
                 ->latest()
                 ->take(8)
@@ -22,15 +24,18 @@ class HomeController extends Controller
             'featuredProducts' => Product::query()
                 ->where('status', 'active')
                 ->where('is_featured', true)
+                ->withReviewStats()
                 ->with('category')
                 ->take(4)
                 ->get(),
             'dealProducts' => Product::query()
                 ->where('status', 'active')
                 ->where('is_deal', true)
+                ->withReviewStats()
                 ->with('category')
                 ->take(4)
                 ->get(),
+            'recentMessages' => Message::query()->latest()->take(3)->get(),
         ]);
     }
 }

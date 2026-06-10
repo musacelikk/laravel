@@ -3,23 +3,48 @@
 @section('title', 'FAQ')
 
 @section('content')
-<section class="mx-auto max-w-2xl px-6 py-16" x-data="{ open: null }">
-    <h1 class="heading-section text-center">Questions</h1>
-    @foreach ([
-        ['q' => 'How long does shipping take?', 'a' => 'Standard delivery is 3–5 business days. Express options available at checkout.'],
-        ['q' => 'What is your return policy?', 'a' => '30-day returns on unworn items with original tags attached.'],
-        ['q' => 'Do you ship internationally?', 'a' => 'Yes — we deliver to over 50 countries worldwide.'],
-        ['q' => 'How do I track my order?', 'a' => 'A tracking link is sent to your email once your order ships.'],
-    ] as $index => $faq)
-        <div class="mt-6 border-b border-luxe-ink/10">
-            <button @click="open = open === {{ $index }} ? null : {{ $index }}" class="flex w-full items-center justify-between py-5 text-left">
-                <span class="font-display text-lg">{{ $faq['q'] }}</span>
-                <span class="text-luxe-gold text-xl" x-text="open === {{ $index }} ? '−' : '+'"></span>
-            </button>
-            <div x-show="open === {{ $index }}" x-cloak class="pb-5 text-sm leading-relaxed text-luxe-muted">
-                {{ $faq['a'] }}
-            </div>
+<section class="border-b border-luxe-ink/10 px-6 py-6">
+    <div class="mx-auto max-w-[900px]">
+        <nav class="label-upper !text-luxe-muted">
+            <a href="{{ route('home') }}" class="hover:text-luxe-ink">Home</a>
+            <span class="mx-2">/</span>
+            <span class="text-luxe-ink">FAQ</span>
+        </nav>
+    </div>
+</section>
+
+<section class="mx-auto max-w-[900px] px-6 py-16" x-data="{ open: {{ $faqs->isNotEmpty() ? 0 : 'null' }} }">
+    <p class="label-upper text-center">Support</p>
+    <h1 class="heading-section mt-3 text-center">Frequently Asked Questions</h1>
+    <p class="mx-auto mt-4 max-w-xl text-center text-sm leading-relaxed text-luxe-muted">
+        Find quick answers about shipping, returns, orders, and more.
+    </p>
+
+    @if ($faqs->isEmpty())
+        <p class="mt-12 text-center text-sm text-luxe-muted">No questions have been published yet.</p>
+    @else
+        <div class="mt-12 divide-y divide-luxe-ink/10 border border-luxe-ink/10">
+            @foreach ($faqs as $index => $faq)
+                <div class="bg-luxe-cream">
+                    <button
+                        type="button"
+                        @click="open = open === {{ $index }} ? null : {{ $index }}"
+                        class="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition hover:bg-luxe-sand/60"
+                        :aria-expanded="open === {{ $index }}"
+                    >
+                        <span class="font-display text-lg text-luxe-ink">{{ $faq->question }}</span>
+                        <span class="flex h-8 w-8 shrink-0 items-center justify-center border border-luxe-ink/15 text-lg text-luxe-gold" x-text="open === {{ $index }} ? '−' : '+'"></span>
+                    </button>
+                    <div
+                        x-show="open === {{ $index }}"
+                        x-cloak
+                        class="border-t border-luxe-ink/5 px-6 pb-6 pt-2 text-sm leading-relaxed text-luxe-muted"
+                    >
+                        {!! nl2br(e($faq->answer)) !!}
+                    </div>
+                </div>
+            @endforeach
         </div>
-    @endforeach
+    @endif
 </section>
 @endsection

@@ -31,7 +31,8 @@
         <div>
             <p class="label-upper">Help</p>
             <ul class="mt-4 space-y-2 text-sm text-luxe-muted">
-                <li><a href="{{ route('pages.about') }}" class="hover:text-luxe-ink">About</a></li>
+                <li><a href="{{ route('pages.about') }}" class="hover:text-luxe-ink">Hakkımızda</a></li>
+                <li><a href="{{ route('pages.about') }}#contact" class="hover:text-luxe-ink">Bize Ulaşın</a></li>
                 <li><a href="{{ route('pages.faq') }}" class="hover:text-luxe-ink">FAQ</a></li>
                 <li><a href="{{ route('cart.index') }}" class="hover:text-luxe-ink">Checkout</a></li>
                 <li><a href="{{ route('login') }}" class="hover:text-luxe-ink">Account</a></li>

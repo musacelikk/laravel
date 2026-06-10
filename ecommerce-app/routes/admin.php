@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\SettingsController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -15,8 +17,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/messages', 'messages')->name('messages.index');
         Route::get('/users', 'users')->name('users.index');
         Route::get('/social', 'social')->name('social.index');
-        Route::get('/settings', 'settings')->name('settings.index');
     });
+
+    Route::get('/settings', [SettingsController::class, 'edit'])->name('settings.edit');
+    Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
+
+    Route::get('/messages/{message}', [MessageController::class, 'show'])->name('messages.show');
+    Route::delete('/messages/{message}', [MessageController::class, 'destroy'])->name('messages.destroy');
 
     Route::prefix('catalog')->name('catalog.')->group(function () {
         Route::resource('categories', CategoryController::class);

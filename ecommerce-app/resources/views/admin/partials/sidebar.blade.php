@@ -74,7 +74,7 @@
                 <li class="nav-header">LABELS</li>
 
                 <li class="nav-item">
-                    <a href="{{ route('admin.settings.index') }}" class="nav-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.settings.edit') }}" class="nav-link {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
                         <ion-icon name="settings-outline" class="nav-icon-ion icon-white"></ion-icon>
                         <p class="d-inline mb-0">Settings</p>
                     </a>

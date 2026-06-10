@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Services\ImageUploader;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -79,6 +80,42 @@ class Product extends Model
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function activeComments(): HasMany
+    {
+        return $this->hasMany(Comment::class)->where('status', 'active')->latest();
+    }
+
+    public function scopeWithReviewStats(Builder $query): Builder
+    {
+        return $query
+            ->withAvg(['comments as average_rating' => fn ($q) => $q->where('status', 'active')], 'rate')
+            ->withCount(['comments as reviews_count' => fn ($q) => $q->where('status', 'active')]);
+    }
+
+    public function displayRating(): float
+    {
+        if (isset($this->average_rating)) {
+            return round((float) $this->average_rating, 1);
+        }
+
+        return round((float) ($this->rating ?? 0), 1);
+    }
+
+    public function displayReviewCount(): int
+    {
+        return (int) ($this->reviews_count ?? $this->review_count ?? 0);
+    }
+
+    public function syncReviewStats(): void
+    {
+        $stats = $this->comments()->where('status', 'active');
+
+        $this->update([
+            'rating' => (int) round($stats->avg('rate') ?? 0),
+            'review_count' => $stats->count(),
+        ]);
     }
 
     public function discountPercent(): ?int

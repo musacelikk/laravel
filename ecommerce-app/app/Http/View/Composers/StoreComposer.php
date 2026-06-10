@@ -26,6 +26,7 @@ class StoreComposer
 
         $view->with([
             'storeCategories' => Category::query()->where('status', 'active')->withCount('products')->orderBy('title')->get(),
+            'navCategoryTree' => Category::tree(),
             'cartCount' => $cartCount,
             'cartTotal' => $cartTotal,
         ]);
