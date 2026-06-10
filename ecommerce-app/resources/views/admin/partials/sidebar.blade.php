@@ -65,6 +65,13 @@
                 </li>
 
                 <li class="nav-item">
+                    <a href="{{ route('admin.roles.index') }}" class="nav-link {{ request()->routeIs('admin.roles.*') ? 'active' : '' }}">
+                        <ion-icon name="shield-checkmark-outline" class="nav-icon-ion icon-yellow"></ion-icon>
+                        <p class="d-inline mb-0">Roles</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a href="{{ route('admin.social.index') }}" class="nav-link {{ request()->routeIs('admin.social.*') ? 'active' : '' }}">
                         <ion-icon name="share-social-outline" class="nav-icon-ion icon-white"></ion-icon>
                         <p class="d-inline mb-0">Social</p>

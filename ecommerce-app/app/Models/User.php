@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -88,5 +89,20 @@ class User extends Authenticatable
     public function shopcarts(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Shopcart::class);
+    }
+
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class, 'role_users');
+    }
+
+    public function hasRole(string $name): bool
+    {
+        return $this->roles()->where('name', $name)->exists();
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->hasRole('admin');
     }
 }

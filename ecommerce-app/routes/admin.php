@@ -4,10 +4,11 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SettingsController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
 
     Route::controller(AdminController::class)->group(function () {
         Route::get('/', 'dashboard')->name('dashboard');
@@ -18,6 +19,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/users', 'users')->name('users.index');
         Route::get('/social', 'social')->name('social.index');
     });
+
+    Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
+    Route::get('/users/{user}/roles', [RoleController::class, 'edit'])->name('users.roles.edit');
+    Route::put('/users/{user}/roles', [RoleController::class, 'update'])->name('users.roles.update');
 
     Route::get('/settings', [SettingsController::class, 'edit'])->name('settings.edit');
     Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');

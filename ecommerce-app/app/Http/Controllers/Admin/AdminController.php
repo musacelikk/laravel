@@ -58,7 +58,7 @@ class AdminController extends Controller
     public function users(): View
     {
         return view('admin.users.index', [
-            'users' => User::query()->latest()->get(),
+            'users' => User::query()->with('roles')->latest()->get(),
         ]);
     }
 
