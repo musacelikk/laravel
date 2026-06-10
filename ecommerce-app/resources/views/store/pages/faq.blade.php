@@ -3,23 +3,23 @@
 @section('title', 'FAQ')
 
 @section('content')
-<div class="mx-auto max-w-3xl px-4 py-14 lg:px-8" x-data="{ open: null }">
-    <h1 class="section-title">Frequently <span>Asked</span></h1>
+<section class="mx-auto max-w-2xl px-6 py-16" x-data="{ open: null }">
+    <h1 class="heading-section text-center">Questions</h1>
     @foreach ([
-        ['q' => 'How long does shipping take?', 'a' => 'Standard shipping takes 3-5 business days. Express shipping is available at checkout.'],
-        ['q' => 'What is your return policy?', 'a' => 'We offer 30-day hassle-free returns on all unused items in original packaging.'],
-        ['q' => 'Do you ship internationally?', 'a' => 'Yes, we ship to over 50 countries worldwide.'],
-        ['q' => 'How can I track my order?', 'a' => 'Once shipped, you will receive a tracking number via email.'],
+        ['q' => 'How long does shipping take?', 'a' => 'Standard delivery is 3–5 business days. Express options available at checkout.'],
+        ['q' => 'What is your return policy?', 'a' => '30-day returns on unworn items with original tags attached.'],
+        ['q' => 'Do you ship internationally?', 'a' => 'Yes — we deliver to over 50 countries worldwide.'],
+        ['q' => 'How do I track my order?', 'a' => 'A tracking link is sent to your email once your order ships.'],
     ] as $index => $faq)
-        <div class="card mt-4 overflow-hidden">
-            <button @click="open = open === {{ $index }} ? null : {{ $index }}" class="flex w-full items-center justify-between px-6 py-5 text-left font-semibold text-zinc-800">
-                {{ $faq['q'] }}
-                <svg class="h-5 w-5 text-primary-500 transition" :class="open === {{ $index }} && 'rotate-180'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        <div class="mt-6 border-b border-luxe-ink/10">
+            <button @click="open = open === {{ $index }} ? null : {{ $index }}" class="flex w-full items-center justify-between py-5 text-left">
+                <span class="font-display text-lg">{{ $faq['q'] }}</span>
+                <span class="text-luxe-gold text-xl" x-text="open === {{ $index }} ? '−' : '+'"></span>
             </button>
-            <div x-show="open === {{ $index }}" x-cloak class="border-t border-surface-100 px-6 py-4 text-sm leading-relaxed text-zinc-500">
+            <div x-show="open === {{ $index }}" x-cloak class="pb-5 text-sm leading-relaxed text-luxe-muted">
                 {{ $faq['a'] }}
             </div>
         </div>
     @endforeach
-</div>
+</section>
 @endsection

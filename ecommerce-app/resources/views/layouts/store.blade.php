@@ -4,25 +4,27 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'E-SHOP') — Boutique Store</title>
+    <title>@yield('title', 'E-SHOP')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 </head>
-<body class="font-sans antialiased" x-data="{ mobileMenu: false }">
+<body x-data="{ menuOpen: false, searchOpen: false }">
 
-    @include('store.partials.topbar')
     @include('store.partials.header')
-    @include('store.partials.nav')
 
     @if (session('success'))
-        <div class="bg-primary-600 px-4 py-3 text-center text-sm font-medium text-white">
+        <div class="bg-luxe-ink px-4 py-3 text-center text-xs font-medium uppercase tracking-widest text-luxe-gold">
             {{ session('success') }}
         </div>
     @endif
 
-    <main>
-        @yield('content')
-    </main>
+    @if (session('error'))
+        <div class="bg-red-900 px-4 py-3 text-center text-xs font-medium uppercase tracking-widest text-red-100">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    @yield('content')
 
     @include('store.partials.footer')
 

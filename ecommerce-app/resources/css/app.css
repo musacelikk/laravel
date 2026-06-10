@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -10,44 +10,53 @@
 
 @layer base {
     body {
-        @apply bg-surface-50 text-zinc-800;
+        @apply bg-luxe-cream font-sans text-luxe-ink antialiased;
     }
 }
 
 @layer components {
-    .btn-primary {
-        @apply inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary-600 to-primary-500 px-7 py-3 text-sm font-semibold text-white shadow-glow transition hover:from-primary-700 hover:to-primary-600 active:scale-[0.98];
+    .btn-gold {
+        @apply inline-flex items-center justify-center gap-2 bg-luxe-ink px-8 py-3.5 text-xs font-semibold uppercase tracking-[0.15em] text-luxe-cream transition hover:bg-luxe-charcoal;
     }
 
-    .btn-secondary {
-        @apply inline-flex items-center justify-center gap-2 rounded-full border border-surface-200 bg-white px-5 py-2.5 text-sm font-medium text-zinc-700 transition hover:border-primary-300 hover:text-primary-700;
+    .btn-outline {
+        @apply inline-flex items-center justify-center gap-2 border border-luxe-ink/20 px-6 py-3 text-xs font-semibold uppercase tracking-[0.12em] text-luxe-ink transition hover:border-luxe-ink hover:bg-luxe-ink hover:text-luxe-cream;
     }
 
     .btn-icon {
-        @apply inline-flex h-11 w-11 items-center justify-center rounded-full border border-surface-200 bg-white text-zinc-500 transition hover:border-accent-400 hover:bg-accent-500/5 hover:text-accent-600;
+        @apply inline-flex h-10 w-10 items-center justify-center border border-luxe-ink/10 text-luxe-muted transition hover:border-luxe-gold hover:text-luxe-gold;
     }
 
-    .section-title {
-        @apply text-2xl font-bold tracking-tight text-zinc-900;
+    .heading-display {
+        @apply font-display text-4xl font-semibold leading-none tracking-tight text-luxe-ink md:text-5xl lg:text-6xl;
     }
 
-    .section-title span {
-        @apply bg-gradient-to-r from-primary-600 to-accent-500 bg-clip-text text-transparent;
+    .heading-section {
+        @apply font-display text-3xl font-semibold text-luxe-ink md:text-4xl;
     }
 
-    .logo-text {
-        @apply bg-gradient-to-r from-primary-700 via-primary-500 to-accent-500 bg-clip-text font-extrabold text-transparent;
+    .label-upper {
+        @apply text-[11px] font-semibold uppercase tracking-[0.2em] text-luxe-muted;
     }
 
-    .card {
-        @apply rounded-3xl border border-surface-200/80 bg-white shadow-soft;
+    .pill {
+        @apply shrink-0 border border-luxe-ink/10 px-5 py-2 text-xs font-medium uppercase tracking-wider text-luxe-ink transition hover:border-luxe-gold hover:text-luxe-gold;
     }
 
-    .nav-link {
-        @apply rounded-full px-4 py-2 text-sm font-medium text-zinc-600 transition hover:bg-primary-50 hover:text-primary-700;
+    .pill-active {
+        @apply border-luxe-ink bg-luxe-ink text-luxe-cream;
     }
 
-    .nav-link-active {
-        @apply bg-primary-50 font-semibold text-primary-700;
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+
+    .input-field {
+        @apply w-full border-0 border-b border-luxe-ink/20 bg-transparent px-0 py-3 text-sm text-luxe-ink placeholder:text-luxe-muted/50 focus:border-luxe-ink focus:ring-0;
     }
 }

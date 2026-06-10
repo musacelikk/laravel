@@ -17,6 +17,7 @@ Route::get('/product/{product:slug}', [ProductController::class, 'show'])->name(
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
+Route::patch('/cart/{product}', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/cart/{product}', [CartController::class, 'remove'])->name('cart.remove');
 
 Route::get('/about', [PageController::class, 'about'])->name('pages.about');

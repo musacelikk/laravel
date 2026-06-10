@@ -1,22 +1,25 @@
 @extends('layouts.store')
 
-@section('title', 'About Us')
+@section('title', 'About')
 
 @section('content')
-<div class="mx-auto max-w-4xl px-4 py-14 lg:px-8">
-    <h1 class="section-title">About <span>E-SHOP</span></h1>
-    <p class="mt-6 text-lg leading-relaxed text-zinc-500">
-        We curate premium fashion, accessories, and electronics for people who value quality over quantity.
-        Every product is handpicked with care.
-    </p>
-    <div class="mt-12 grid gap-5 sm:grid-cols-3">
-        @foreach ([['title' => 'Quality', 'desc' => 'Handpicked from trusted brands', 'icon' => '✦'], ['title' => 'Fast Delivery', 'desc' => 'Free shipping over $50', 'icon' => '◈'], ['title' => 'Support', 'desc' => 'Always here to help', 'icon' => '◎']] as $item)
-            <div class="card p-6 text-center">
-                <span class="text-2xl text-primary-500">{{ $item['icon'] }}</span>
-                <h3 class="mt-3 font-bold text-zinc-900">{{ $item['title'] }}</h3>
-                <p class="mt-2 text-sm text-zinc-400">{{ $item['desc'] }}</p>
-            </div>
-        @endforeach
+<section class="grid lg:grid-cols-2">
+    <div class="bg-luxe-sand px-6 py-20 lg:px-16">
+        <p class="label-upper">Our Story</p>
+        <h1 class="heading-display mt-6">Crafted with<br>Intention</h1>
     </div>
-</div>
+    <div class="flex flex-col justify-center px-6 py-20 lg:px-16">
+        <p class="text-sm leading-relaxed text-luxe-muted">
+            E-SHOP was founded on a simple belief: fewer, better things. We partner with artisans and responsible makers to bring you pieces that last beyond seasons.
+        </p>
+        <div class="mt-12 grid grid-cols-3 gap-6 border-t border-luxe-ink/10 pt-12">
+            @foreach ([['n' => '50+', 'l' => 'Brands'], ['n' => '10k', 'l' => 'Customers'], ['n' => '30', 'l' => 'Day Returns']] as $stat)
+                <div>
+                    <p class="font-display text-3xl text-luxe-gold">{{ $stat['n'] }}</p>
+                    <p class="mt-1 text-xs uppercase tracking-widest text-luxe-muted">{{ $stat['l'] }}</p>
+                </div>
+            @endforeach
+        </div>
+    </div>
+</section>
 @endsection

@@ -36,11 +36,38 @@ class CartController extends Controller
 
     public function add(Request $request, Product $product): RedirectResponse
     {
+        if (! $product->inStock()) {
+            return back()->with('error', $product->name.' is currently out of stock.');
+        }
+
+        $quantity = max(1, min(99, (int) $request->input('quantity', 1)));
         $cart = $request->session()->get('cart', []);
-        $cart[$product->id] = ($cart[$product->id] ?? 0) + max(1, (int) $request->input('quantity', 1));
+        $cart[$product->id] = min(99, ($cart[$product->id] ?? 0) + $quantity);
         $request->session()->put('cart', $cart);
 
-        return back()->with('success', $product->name.' added to cart.');
+        if ($request->input('redirect') === 'cart') {
+            return redirect()->route('cart.index')->with('success', $product->name.' added to your bag.');
+        }
+
+        return back()->with('success', $product->name.' added to your bag.');
+    }
+
+    public function update(Request $request, Product $product): RedirectResponse
+    {
+        $quantity = max(0, min(99, (int) $request->input('quantity', 1)));
+        $cart = $request->session()->get('cart', []);
+
+        if ($quantity === 0) {
+            unset($cart[$product->id]);
+            $message = 'Item removed from your bag.';
+        } else {
+            $cart[$product->id] = $quantity;
+            $message = 'Bag updated.';
+        }
+
+        $request->session()->put('cart', $cart);
+
+        return redirect()->route('cart.index')->with('success', $message);
     }
 
     public function remove(Request $request, Product $product): RedirectResponse
@@ -49,6 +76,6 @@ class CartController extends Controller
         unset($cart[$product->id]);
         $request->session()->put('cart', $cart);
 
-        return redirect()->route('cart.index')->with('success', 'Item removed from cart.');
+        return redirect()->route('cart.index')->with('success', 'Item removed from your bag.');
     }
 }
