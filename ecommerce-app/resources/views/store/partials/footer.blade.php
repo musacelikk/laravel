@@ -47,6 +47,6 @@
         </div>
     </div>
     <p class="mx-auto mt-12 max-w-[1400px] text-center text-[11px] uppercase tracking-widest text-luxe-muted">
-        &copy; {{ date('Y') }} E-SHOP
+        &copy; {{ date('Y') }} E-SHOP · <a href="{{ route('admin.dashboard') }}" class="hover:text-luxe-ink">Admin</a>
     </p>
 </footer>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
@@ -24,6 +25,13 @@ Route::get('/about', [PageController::class, 'about'])->name('pages.about');
 Route::get('/faq', [PageController::class, 'faq'])->name('pages.faq');
 Route::get('/newsletter', [PageController::class, 'newsletter'])->name('pages.newsletter');
 Route::post('/newsletter', [PageController::class, 'subscribe'])->name('pages.newsletter.subscribe');
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/products', [AdminController::class, 'products'])->name('products');
+    Route::get('/categories', [AdminController::class, 'categories'])->name('categories');
+    Route::get('/orders', [AdminController::class, 'orders'])->name('orders');
+});
 
 Route::middleware([
     'auth:sanctum',
