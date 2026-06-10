@@ -30,10 +30,14 @@
 
             <div class="flex items-center justify-end gap-4">
                 @auth
-                    <a href="{{ route('dashboard') }}" class="label-upper hidden hover:text-luxe-gold sm:inline">{{ Auth::user()->name }}</a>
+                    <span class="label-upper hidden text-luxe-ink sm:inline">{{ Auth::user()->name }}</span>
+                    <form method="POST" action="{{ route('logout') }}" class="hidden sm:inline">
+                        @csrf
+                        <button type="submit" class="label-upper hover:text-luxe-gold">Logout</button>
+                    </form>
                 @else
                     <a href="{{ route('login') }}" class="label-upper hidden hover:text-luxe-gold sm:inline">Account</a>
-                @endif
+                @endauth
                 <a href="{{ route('cart.index') }}" class="relative flex items-center gap-2">
                     <span class="label-upper">Bag</span>
                     @if ($cartCount > 0)
@@ -75,6 +79,14 @@
             @endforeach
             <a href="{{ route('pages.about') }}" class="label-upper mt-4">Hakkımızda & İletişim</a>
             <a href="{{ route('pages.faq') }}" class="font-display text-2xl">FAQ</a>
+            @auth
+                <form method="POST" action="{{ route('logout') }}" class="mt-4">
+                    @csrf
+                    <button type="submit" class="label-upper text-luxe-muted hover:text-luxe-gold">Logout</button>
+                </form>
+            @else
+                <a href="{{ route('login') }}" class="label-upper mt-4">Account</a>
+            @endauth
         </nav>
     </div>
 </header>
