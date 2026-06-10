@@ -13,7 +13,6 @@
     </div>
 </section>
 
-{{-- Hakkımızda --}}
 <section class="mx-auto max-w-[1400px] px-6 py-16">
     <div class="grid gap-12 lg:grid-cols-2">
         <div>
@@ -47,7 +46,6 @@
     </div>
 </section>
 
-{{-- Bize Ulaşın form --}}
 <section id="contact" class="bg-luxe-sand/50 px-6 py-16">
     <div class="mx-auto max-w-[1400px]">
         <div class="grid gap-12 lg:grid-cols-2">
@@ -86,7 +84,6 @@
     </div>
 </section>
 
-{{-- Son mesajlar (herkese açık özet) --}}
 @if ($recentMessages->isNotEmpty())
 <section class="mx-auto max-w-[1400px] px-6 py-12">
     <p class="label-upper">Community</p>

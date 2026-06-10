@@ -9,22 +9,30 @@
 }
 
 @layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
     body {
         @apply bg-luxe-cream font-sans text-luxe-ink antialiased;
+    }
+
+    ::selection {
+        @apply bg-luxe-gold/30 text-luxe-ink;
     }
 }
 
 @layer components {
     .btn-gold {
-        @apply inline-flex items-center justify-center gap-2 bg-luxe-ink px-8 py-3.5 text-xs font-semibold uppercase tracking-[0.15em] text-luxe-cream transition hover:bg-luxe-charcoal;
+        @apply inline-flex items-center justify-center gap-2 bg-luxe-ink px-8 py-3.5 text-xs font-semibold uppercase tracking-[0.15em] text-luxe-cream shadow-sm transition hover:bg-luxe-charcoal hover:shadow-md;
     }
 
     .btn-outline {
-        @apply inline-flex items-center justify-center gap-2 border border-luxe-ink/20 px-6 py-3 text-xs font-semibold uppercase tracking-[0.12em] text-luxe-ink transition hover:border-luxe-ink hover:bg-luxe-ink hover:text-luxe-cream;
+        @apply inline-flex items-center justify-center gap-2 border border-luxe-ink/20 bg-transparent px-6 py-3 text-xs font-semibold uppercase tracking-[0.12em] text-luxe-ink transition hover:border-luxe-ink hover:bg-luxe-ink hover:text-luxe-cream;
     }
 
     .btn-icon {
-        @apply inline-flex h-10 w-10 items-center justify-center border border-luxe-ink/10 text-luxe-muted transition hover:border-luxe-gold hover:text-luxe-gold;
+        @apply inline-flex h-10 w-10 items-center justify-center border border-luxe-ink/10 bg-luxe-cream/80 text-luxe-muted transition hover:border-luxe-gold hover:text-luxe-gold;
     }
 
     .heading-display {
@@ -40,7 +48,7 @@
     }
 
     .pill {
-        @apply shrink-0 border border-luxe-ink/10 px-5 py-2 text-xs font-medium uppercase tracking-wider text-luxe-ink transition hover:border-luxe-gold hover:text-luxe-gold;
+        @apply shrink-0 border border-luxe-ink/10 bg-luxe-cream px-5 py-2 text-xs font-medium uppercase tracking-wider text-luxe-ink transition hover:border-luxe-gold hover:text-luxe-gold;
     }
 
     .pill-active {
@@ -57,6 +65,143 @@
     }
 
     .input-field {
-        @apply w-full border-0 border-b border-luxe-ink/20 bg-transparent px-0 py-3 text-sm text-luxe-ink placeholder:text-luxe-muted/50 focus:border-luxe-ink focus:ring-0;
+        @apply w-full border-0 border-b border-luxe-ink/20 bg-transparent px-0 py-3 text-sm text-luxe-ink placeholder:text-luxe-muted/50 focus:border-luxe-gold focus:ring-0;
+    }
+
+    .input-box {
+        @apply w-full border border-luxe-ink/15 bg-white px-4 py-3 text-sm text-luxe-ink transition placeholder:text-luxe-muted/50 focus:border-luxe-gold focus:outline-none focus:ring-0;
+    }
+
+    .card-luxe {
+        @apply border border-luxe-ink/10 bg-white shadow-sm;
+    }
+
+    .section-shell {
+        @apply mx-auto max-w-[1400px] px-6;
+    }
+
+    .section-divider {
+        @apply border-b border-luxe-ink/10 pb-6;
+    }
+
+    .page-breadcrumb {
+        @apply label-upper !text-luxe-muted;
+    }
+
+    .price-current {
+        @apply font-semibold text-luxe-ink;
+    }
+
+    .price-compare {
+        @apply text-xs font-medium text-luxe-gold line-through;
+    }
+
+    .flash-banner {
+        @apply border-b px-4 py-3 text-center text-xs font-medium uppercase tracking-widest;
+    }
+
+    .flash-success {
+        @apply flash-banner border-luxe-gold/30 bg-luxe-ink text-luxe-gold;
+    }
+
+    .flash-error {
+        @apply flash-banner border-red-800 bg-red-950 text-red-100;
+    }
+
+    .account-shell {
+        @apply card-luxe p-6 md:p-8;
+    }
+
+    .account-nav-link {
+        @apply flex items-center gap-3 border-l-2 py-3 pl-4 text-sm font-medium uppercase tracking-wider transition;
+    }
+
+    .account-nav-link-active {
+        @apply border-luxe-gold text-luxe-ink;
+    }
+
+    .account-nav-link-idle {
+        @apply border-transparent text-luxe-muted hover:border-luxe-ink/20 hover:text-luxe-ink;
+    }
+
+    .table-luxe {
+        @apply w-full min-w-[640px] text-left text-sm;
+    }
+
+    .table-luxe thead {
+        @apply border-b border-luxe-ink/10 bg-luxe-sand/60 text-xs uppercase tracking-widest text-luxe-muted;
+    }
+
+    .table-luxe th {
+        @apply px-4 py-3 font-semibold;
+    }
+
+    .table-luxe tbody {
+        @apply divide-y divide-luxe-ink/10;
+    }
+
+    .table-luxe td {
+        @apply px-4 py-4;
+    }
+
+    .status-pill {
+        @apply inline-flex px-3 py-1 text-[10px] font-semibold uppercase tracking-widest;
+    }
+
+    .status-pending {
+        @apply status-pill bg-amber-50 text-amber-800 ring-1 ring-amber-200;
+    }
+
+    .status-approved {
+        @apply status-pill bg-emerald-50 text-emerald-800 ring-1 ring-emerald-200;
+    }
+
+    .status-cancelled {
+        @apply status-pill bg-red-50 text-red-800 ring-1 ring-red-200;
+    }
+
+    .product-card {
+        @apply transition;
+    }
+
+    .product-card-media {
+        @apply relative overflow-hidden bg-luxe-sand ring-1 ring-luxe-ink/5 transition duration-500 group-hover:ring-luxe-gold/40;
+    }
+
+    .user-menu-panel {
+        @apply absolute right-0 z-50 mt-3 w-72 overflow-hidden border border-luxe-ink/10 bg-white shadow-xl ring-1 ring-luxe-ink/5;
+    }
+
+    .user-menu-item {
+        @apply flex items-center gap-3 px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-luxe-ink transition hover:bg-luxe-sand;
+    }
+
+    .store-header {
+        @apply sticky top-0 z-40 border-b border-luxe-ink/10 bg-luxe-cream/95 backdrop-blur-md;
+    }
+
+    .pagination-luxe nav {
+        @apply flex justify-center gap-1;
+    }
+
+    .pagination-luxe nav > div:first-child {
+        @apply hidden;
+    }
+
+    .pagination-luxe span,
+    .pagination-luxe a {
+        @apply inline-flex min-h-9 min-w-9 items-center justify-center border border-luxe-ink/10 px-3 text-xs font-semibold uppercase tracking-wider transition;
+    }
+
+    .pagination-luxe a {
+        @apply text-luxe-muted hover:border-luxe-ink hover:text-luxe-ink;
+    }
+
+    .pagination-luxe span[aria-current="page"] span {
+        @apply border-luxe-ink bg-luxe-ink text-luxe-cream;
+    }
+
+    .pagination-luxe span[aria-disabled="true"] span {
+        @apply cursor-not-allowed opacity-40;
     }
 }

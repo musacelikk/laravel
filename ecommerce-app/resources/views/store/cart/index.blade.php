@@ -3,8 +3,8 @@
 @section('title', 'Bag')
 
 @section('content')
-<section class="mx-auto max-w-[1400px] px-6 py-12">
-    <nav class="label-upper !text-luxe-muted">
+<section class="section-shell py-12 md:py-16">
+    <nav class="page-breadcrumb">
         <a href="{{ route('home') }}" class="hover:text-luxe-ink">Home</a>
         <span class="mx-2">/</span>
         <span class="text-luxe-ink">Your Bag</span>
@@ -12,21 +12,21 @@
     <h1 class="heading-section mt-4">Your Bag</h1>
 
     @if ($items->isEmpty())
-        <div class="mt-16 border border-luxe-ink/10 py-20 text-center">
-            <p class="font-display text-2xl text-luxe-muted">Your bag is empty</p>
-            <p class="mt-2 text-sm text-luxe-muted">Discover something you love from our collection.</p>
+        <div class="card-luxe mt-16 py-20 text-center">
+            <p class="font-display text-3xl text-luxe-muted">Your bag is empty</p>
+            <p class="mt-3 text-sm text-luxe-muted">Discover something you love from our collection.</p>
             <div class="mt-8 flex flex-wrap justify-center gap-4">
                 <a href="{{ route('shop.index') }}" class="btn-gold">Continue Shopping</a>
                 <a href="{{ route('shop.sales') }}" class="btn-outline">View Sale</a>
             </div>
         </div>
     @else
-        <div class="mt-12 grid gap-16 lg:grid-cols-3">
-            <div class="space-y-0 divide-y divide-luxe-ink/10 lg:col-span-2">
+        <div class="mt-12 grid gap-12 lg:grid-cols-3 lg:gap-16">
+            <div class="space-y-0 lg:col-span-2">
                 @foreach ($items as $item)
-                    <div class="flex gap-6 py-8 first:pt-0">
-                        <a href="{{ route('products.show', $item['product']) }}" class="shrink-0">
-                            <img src="{{ $item['product']->imageUrl() }}" alt="{{ $item['product']->name }}" class="h-32 w-24 bg-luxe-sand object-cover">
+                    <div class="flex gap-5 border-b border-luxe-ink/10 py-8 first:pt-0">
+                        <a href="{{ route('products.show', $item['product']) }}" class="shrink-0 overflow-hidden ring-1 ring-luxe-ink/10">
+                            <img src="{{ $item['product']->imageUrl() }}" alt="{{ $item['product']->name }}" class="h-36 w-28 bg-luxe-sand object-cover transition hover:scale-105">
                         </a>
                         <div class="flex min-w-0 flex-1 flex-col justify-between">
                             <div>
@@ -35,17 +35,17 @@
                                 <p class="mt-2 text-sm text-luxe-muted">${{ number_format($item['product']->price, 2) }} each</p>
                             </div>
                             <div class="mt-4 flex flex-wrap items-center gap-6">
-                                <form action="{{ route('cart.update', $item['product']) }}" method="POST" class="inline-flex items-center border border-luxe-ink/15">
+                                <form action="{{ route('cart.update', $item['product']) }}" method="POST" class="inline-flex items-center border border-luxe-ink/15 bg-white">
                                     @csrf
                                     @method('PATCH')
                                     <button type="submit" name="quantity" value="{{ $item['quantity'] - 1 }}" class="px-3 py-2 text-luxe-muted hover:text-luxe-ink" {{ $item['quantity'] <= 1 ? 'disabled' : '' }}>−</button>
-                                    <span class="w-10 text-center text-sm">{{ $item['quantity'] }}</span>
+                                    <span class="w-10 text-center text-sm font-medium tabular-nums">{{ $item['quantity'] }}</span>
                                     <button type="submit" name="quantity" value="{{ $item['quantity'] + 1 }}" class="px-3 py-2 text-luxe-muted hover:text-luxe-ink" {{ $item['quantity'] >= 99 ? 'disabled' : '' }}>+</button>
                                 </form>
                                 <form action="{{ route('cart.remove', $item['product']) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-xs uppercase tracking-widest text-luxe-muted hover:text-luxe-ink">Remove</button>
+                                    <button type="submit" class="text-xs uppercase tracking-widest text-luxe-muted hover:text-red-700">Remove</button>
                                 </form>
                             </div>
                         </div>
@@ -54,12 +54,12 @@
                 @endforeach
             </div>
 
-            <div class="h-fit border border-luxe-ink/10 p-8">
+            <div class="card-luxe h-fit p-8">
                 <p class="label-upper">Order Summary</p>
                 <div class="mt-6 space-y-3 text-sm">
                     <div class="flex justify-between">
                         <span class="text-luxe-muted">Items ({{ $items->sum('quantity') }})</span>
-                        <span>${{ number_format($total, 2) }}</span>
+                        <span class="font-medium">${{ number_format($total, 2) }}</span>
                     </div>
                     <div class="flex justify-between">
                         <span class="text-luxe-muted">Shipping</span>

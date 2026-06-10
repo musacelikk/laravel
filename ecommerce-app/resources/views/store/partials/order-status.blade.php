@@ -1,5 +1,13 @@
 @props(['order'])
 
-<span {{ $attributes->merge(['class' => 'inline-flex px-3 py-1 text-[10px] font-semibold uppercase tracking-widest '.$order->storeBadgeClass()]) }}>
+@php
+    $class = match ($order->status) {
+        \App\Models\Order::STATUS_APPROVED => 'status-approved',
+        \App\Models\Order::STATUS_CANCELLED => 'status-cancelled',
+        default => 'status-pending',
+    };
+@endphp
+
+<span {{ $attributes->merge(['class' => $class]) }} aria-label="{{ $order->statusLabel() }}">
     {{ $order->statusLabel() }}
 </span>

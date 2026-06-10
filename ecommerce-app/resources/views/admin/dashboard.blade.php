@@ -9,7 +9,6 @@
 @endsection
 
 @section('content')
-{{-- Info boxes --}}
 <div class="row">
     <div class="col-12 col-sm-6 col-md-3">
         <div class="info-box">
@@ -50,7 +49,6 @@
 </div>
 
 <div class="row">
-    {{-- Visitors chart --}}
     <div class="col-lg-6">
         <div class="card">
             <div class="card-header border-0">
@@ -81,7 +79,6 @@
         </div>
     </div>
 
-    {{-- Sales chart --}}
     <div class="col-lg-6">
         <div class="card">
             <div class="card-header border-0">
@@ -114,7 +111,6 @@
 </div>
 
 <div class="row">
-    {{-- Products table --}}
     <div class="col-lg-7">
         <div class="card">
             <div class="card-header border-transparent">
@@ -176,7 +172,6 @@
         </div>
     </div>
 
-    {{-- Store overview --}}
     <div class="col-lg-5">
         <div class="card">
             <div class="card-header border-transparent">

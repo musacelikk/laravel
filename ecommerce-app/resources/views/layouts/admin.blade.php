@@ -15,7 +15,6 @@
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
-    {{-- Navbar --}}
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
         <ul class="navbar-nav">
             <li class="nav-item">
@@ -75,10 +74,8 @@
         </ul>
     </nav>
 
-    {{-- Sidebar --}}
     @include('admin.partials.sidebar')
 
-    {{-- Content --}}
     <div class="content-wrapper">
         <div class="content-header">
             <div class="container-fluid">

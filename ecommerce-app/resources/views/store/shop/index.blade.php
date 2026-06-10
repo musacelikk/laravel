@@ -96,7 +96,7 @@
             </div>
         @endforelse
     </div>
-    <div class="mt-16 border-t border-luxe-ink/10 pt-8">
+    <div class="pagination-luxe mt-16 border-t border-luxe-ink/10 pt-8">
         {{ $products->links() }}
     </div>
 </section>

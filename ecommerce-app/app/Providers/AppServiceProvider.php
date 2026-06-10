@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Http\View\Composers\StoreComposer;
 use App\Services\PostgresProxyManager;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -14,7 +15,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
     }
 
     /**
@@ -24,6 +24,9 @@ class AppServiceProvider extends ServiceProvider
     {
         View::composer('layouts.store', StoreComposer::class);
         View::composer('store.*', StoreComposer::class);
+
+        Paginator::defaultView('vendor.pagination.luxe');
+        Paginator::defaultSimpleView('vendor.pagination.luxe');
 
         if (! $this->app->runningInConsole()) {
             return;

@@ -13,15 +13,11 @@
     @include('store.partials.header')
 
     @if (session('success'))
-        <div class="bg-luxe-ink px-4 py-3 text-center text-xs font-medium uppercase tracking-widest text-luxe-gold">
-            {{ session('success') }}
-        </div>
+        <div class="flash-success">{{ session('success') }}</div>
     @endif
 
     @if (session('error'))
-        <div class="bg-red-900 px-4 py-3 text-center text-xs font-medium uppercase tracking-widest text-red-100">
-            {{ session('error') }}
-        </div>
+        <div class="flash-error">{{ session('error') }}</div>
     @endif
 
     @yield('content')

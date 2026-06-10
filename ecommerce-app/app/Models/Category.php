@@ -110,7 +110,6 @@ class Category extends Model
         )));
     }
 
-    /** Products scoped to this category (subcategory = exact; parent = includes children). */
     public function productScopeIds(): array
     {
         if ($this->children()->exists()) {
