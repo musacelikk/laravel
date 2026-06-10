@@ -2,23 +2,29 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
     protected $fillable = [
         'category_id',
-        'name',
-        'slug',
+        'user_id',
+        'title',
+        'keywords',
         'description',
+        'detail',
         'price',
-        'compare_price',
+        'quantity',
+        'status',
+        'slug',
         'image',
+        'compare_price',
         'brand',
         'rating',
         'review_count',
-        'stock',
         'is_new',
         'is_featured',
         'is_deal',
@@ -39,9 +45,39 @@ class Product extends Model
         ];
     }
 
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
+    protected function name(): Attribute
+    {
+        return Attribute::get(fn () => $this->title);
+    }
+
+    protected function stock(): Attribute
+    {
+        return Attribute::get(fn () => $this->quantity);
+    }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function images(): HasMany
+    {
+        return $this->hasMany(ProductImage::class);
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
     }
 
     public function discountPercent(): ?int
@@ -55,6 +91,6 @@ class Product extends Model
 
     public function inStock(): bool
     {
-        return $this->stock > 0;
+        return $this->quantity > 0;
     }
 }

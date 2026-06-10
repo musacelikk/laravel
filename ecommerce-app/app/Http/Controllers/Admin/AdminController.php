@@ -16,7 +16,7 @@ class AdminController extends Controller
         return view('admin.dashboard', [
             'productCount' => Product::count(),
             'categoryCount' => Category::count(),
-            'totalStock' => Product::sum('stock'),
+            'totalStock' => Product::sum('quantity'),
             'featuredCount' => Product::where('is_featured', true)->count(),
             'products' => $products,
         ]);
@@ -32,7 +32,7 @@ class AdminController extends Controller
     public function categories(): View
     {
         return view('admin.categories', [
-            'categories' => Category::query()->withCount('products')->orderBy('sort_order')->get(),
+            'categories' => Category::query()->withCount('products')->orderBy('title')->get(),
         ]);
     }
 

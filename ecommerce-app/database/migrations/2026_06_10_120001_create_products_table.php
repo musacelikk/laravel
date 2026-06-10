@@ -10,17 +10,21 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
-            $table->string('name');
-            $table->string('slug')->unique();
+            $table->string('title');
+            $table->string('keywords')->nullable();
             $table->text('description');
-            $table->decimal('price', 10, 2);
-            $table->decimal('compare_price', 10, 2)->nullable();
             $table->string('image');
+            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
+            $table->text('detail')->nullable();
+            $table->decimal('price', 10, 2);
+            $table->unsignedInteger('quantity')->default(0);
+            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+            $table->string('status')->default('active');
+            $table->string('slug')->unique();
+            $table->decimal('compare_price', 10, 2)->nullable();
             $table->string('brand')->default('E-SHOP');
             $table->unsignedTinyInteger('rating')->default(5);
             $table->unsignedInteger('review_count')->default(0);
-            $table->unsignedInteger('stock')->default(100);
             $table->boolean('is_new')->default(false);
             $table->boolean('is_featured')->default(false);
             $table->boolean('is_deal')->default(false);

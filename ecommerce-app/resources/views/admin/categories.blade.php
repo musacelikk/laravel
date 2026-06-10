@@ -27,7 +27,7 @@
                             <b>Slug</b> <span class="float-right text-muted">{{ $category->slug }}</span>
                         </li>
                         <li class="list-group-item">
-                            <b>Sort Order</b> <span class="float-right">{{ $category->sort_order }}</span>
+                            <b>Status</b> <span class="float-right badge badge-success">{{ $category->status }}</span>
                         </li>
                     </ul>
                     <div class="btn-group btn-group-sm d-flex">
@@ -57,7 +57,7 @@
                             <th>Name</th>
                             <th>Slug</th>
                             <th>Products</th>
-                            <th>Sort</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -68,7 +68,7 @@
                                 <td>{{ $category->name }}</td>
                                 <td><code>{{ $category->slug }}</code></td>
                                 <td><span class="badge badge-info">{{ $category->products_count }}</span></td>
-                                <td>{{ $category->sort_order }}</td>
+                                <td><span class="badge badge-success">{{ $category->status }}</span></td>
                                 <td>
                                     <button class="btn btn-xs btn-default"><i class="fas fa-edit"></i></button>
                                     <button class="btn btn-xs btn-default"><i class="fas fa-trash text-danger"></i></button>

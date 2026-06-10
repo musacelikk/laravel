@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,11 +10,31 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Category extends Model
 {
     protected $fillable = [
-        'name',
-        'slug',
         'parent_id',
-        'sort_order',
+        'title',
+        'keywords',
+        'description',
+        'image',
+        'status',
+        'slug',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'parent_id' => 'integer',
+        ];
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
+    protected function name(): Attribute
+    {
+        return Attribute::get(fn () => $this->title);
+    }
 
     public function parent(): BelongsTo
     {
@@ -22,7 +43,7 @@ class Category extends Model
 
     public function children(): HasMany
     {
-        return $this->hasMany(Category::class, 'parent_id')->orderBy('sort_order');
+        return $this->hasMany(Category::class, 'parent_id');
     }
 
     public function products(): HasMany
@@ -32,6 +53,10 @@ class Category extends Model
 
     public function coverImage(): string
     {
+        if ($this->image) {
+            return $this->image;
+        }
+
         return match ($this->slug) {
             'womens-clothing' => 'https://images.unsplash.com/photo-1483985988350-763728e3685b?w=600&h=800&fit=crop',
             'mens-clothing' => 'https://images.unsplash.com/photo-1617137968427-85924c800a22?w=600&h=800&fit=crop',
@@ -46,6 +71,10 @@ class Category extends Model
 
     public function tagline(): string
     {
+        if ($this->description) {
+            return $this->description;
+        }
+
         return match ($this->slug) {
             'womens-clothing' => 'Elegant essentials for every occasion',
             'mens-clothing' => 'Tailored pieces with modern appeal',

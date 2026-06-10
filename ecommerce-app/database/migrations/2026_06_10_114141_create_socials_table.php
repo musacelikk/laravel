@@ -8,21 +8,18 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('socials', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('parent_id')->default(0);
             $table->string('title');
-            $table->string('keywords')->nullable();
-            $table->text('description')->nullable();
+            $table->string('url')->nullable();
             $table->string('image')->nullable();
             $table->string('status')->default('active');
-            $table->string('slug')->unique();
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('socials');
     }
 };

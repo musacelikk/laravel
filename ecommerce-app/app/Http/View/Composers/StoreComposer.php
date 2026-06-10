@@ -25,7 +25,7 @@ class StoreComposer
         }
 
         $view->with([
-            'storeCategories' => Category::query()->withCount('products')->orderBy('sort_order')->get(),
+            'storeCategories' => Category::query()->withCount('products')->orderBy('title')->get(),
             'cartCount' => $cartCount,
             'cartTotal' => $cartTotal,
         ]);
