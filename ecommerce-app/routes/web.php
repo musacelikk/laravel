@@ -31,6 +31,12 @@ Route::post('/newsletter', [PageController::class, 'subscribe'])->name('pages.ne
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/orders', [AdminController::class, 'orders'])->name('orders');
+    Route::get('/comments', [AdminController::class, 'comments'])->name('comments.index');
+    Route::get('/faq', [AdminController::class, 'faq'])->name('faq.index');
+    Route::get('/messages', [AdminController::class, 'messages'])->name('messages.index');
+    Route::get('/users', [AdminController::class, 'users'])->name('users.index');
+    Route::get('/social', [AdminController::class, 'social'])->name('social.index');
+    Route::get('/settings', [AdminController::class, 'settings'])->name('settings.index');
 
     Route::resource('categories', CategoryController::class)->except(['show']);
     Route::resource('products', AdminProductController::class)->except(['show']);
