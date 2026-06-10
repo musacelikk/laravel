@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\MessageController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SettingsController;
@@ -12,13 +13,17 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
 
     Route::controller(AdminController::class)->group(function () {
         Route::get('/', 'dashboard')->name('dashboard');
-        Route::get('/orders', 'orders')->name('orders');
         Route::get('/comments', 'comments')->name('comments.index');
         Route::get('/faq', 'faq')->name('faq.index');
         Route::get('/messages', 'messages')->name('messages.index');
         Route::get('/users', 'users')->name('users.index');
         Route::get('/social', 'social')->name('social.index');
     });
+
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+    Route::patch('/orders/{order}/accept', [OrderController::class, 'accept'])->name('orders.accept');
+    Route::patch('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
 
     Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
     Route::get('/users/{user}/roles', [RoleController::class, 'edit'])->name('users.roles.edit');

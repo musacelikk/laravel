@@ -6,6 +6,7 @@ use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -37,7 +38,18 @@ class UserPanelController extends Controller
     public function orders(): View
     {
         return view('store.account.orders', [
-            'orders' => auth()->user()->orders()->with('orderProducts.product')->latest()->get(),
+            'orders' => auth()->user()->orders()->withCount('orderProducts')->latest()->get(),
+        ]);
+    }
+
+    public function showOrder(Order $order): View
+    {
+        abort_unless($order->user_id === auth()->id(), 403);
+
+        $order->load('orderProducts.product');
+
+        return view('store.account.order-show', [
+            'order' => $order,
         ]);
     }
 

@@ -15,7 +15,7 @@
                 </li>
 
                 <li class="nav-item {{ request()->routeIs('admin.orders*') ? 'menu-open' : '' }}">
-                    <a href="{{ route('admin.orders') }}" class="nav-link {{ request()->routeIs('admin.orders*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.orders.index') }}" class="nav-link {{ request()->routeIs('admin.orders*') ? 'active' : '' }}">
                         <ion-icon name="cube" class="nav-icon-ion icon-blue"></ion-icon>
                         <p class="d-inline mb-0">Orders</p>
                         <ion-icon name="chevron-back" class="nav-chevron right"></ion-icon>

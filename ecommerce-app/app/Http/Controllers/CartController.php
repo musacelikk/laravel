@@ -53,6 +53,10 @@ class CartController extends Controller
 
     public function checkout(Request $request): View|RedirectResponse
     {
+        if (! $request->user()) {
+            return redirect()->route('login')->with('error', 'Please sign in to complete checkout.');
+        }
+
         $cart = $request->session()->get('cart', []);
 
         if ($cart === []) {

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Account\UserPanelController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
@@ -23,7 +24,11 @@ Route::get('/cart/add/{product}/link', [CartController::class, 'addFromLink'])->
 Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
 Route::patch('/cart/{product}', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/cart/{product}', [CartController::class, 'remove'])->name('cart.remove');
-Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+Route::middleware('auth')->group(function () {
+    Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+    Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+    Route::get('/checkout/complete/{order}', [CheckoutController::class, 'complete'])->name('checkout.complete');
+});
 
 Route::view('/wishlist', 'store.pages.wishlist')->name('wishlist');
 Route::view('/compare', 'store.pages.compare')->name('compare');
@@ -33,6 +38,7 @@ Route::middleware('auth')->prefix('account')->name('account.')->group(function (
     Route::put('/profile', [UserPanelController::class, 'updateProfile'])->name('profile.update');
     Route::put('/password', [UserPanelController::class, 'updatePassword'])->name('password.update');
     Route::get('/orders', [UserPanelController::class, 'orders'])->name('orders');
+    Route::get('/orders/{order}', [UserPanelController::class, 'showOrder'])->name('orders.show');
     Route::get('/reviews', [UserPanelController::class, 'reviews'])->name('reviews');
     Route::delete('/reviews/{comment}', [UserPanelController::class, 'destroyReview'])->name('reviews.destroy');
     Route::get('/products', [UserPanelController::class, 'products'])->name('products');
