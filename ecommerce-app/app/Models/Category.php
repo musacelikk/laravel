@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Services\ImageUploader;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 
 class Category extends Model
 {
@@ -43,7 +45,7 @@ class Category extends Model
 
     public function children(): HasMany
     {
-        return $this->hasMany(Category::class, 'parent_id');
+        return $this->hasMany(Category::class, 'parent_id')->orderBy('title');
     }
 
     public function products(): HasMany
@@ -51,13 +53,14 @@ class Category extends Model
         return $this->hasMany(Product::class);
     }
 
+    public function imageUrl(): ?string
+    {
+        return app(ImageUploader::class)->url($this->image);
+    }
+
     public function coverImage(): string
     {
-        if ($this->image) {
-            return $this->image;
-        }
-
-        return match ($this->slug) {
+        return $this->imageUrl() ?? match ($this->slug) {
             'womens-clothing' => 'https://images.unsplash.com/photo-1483985988350-763728e3685b?w=600&h=800&fit=crop',
             'mens-clothing' => 'https://images.unsplash.com/photo-1617137968427-85924c800a22?w=600&h=800&fit=crop',
             'phones-accessories' => 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600&h=800&fit=crop',
@@ -72,7 +75,7 @@ class Category extends Model
     public function tagline(): string
     {
         if ($this->description) {
-            return $this->description;
+            return strip_tags($this->description);
         }
 
         return match ($this->slug) {
@@ -85,5 +88,46 @@ class Category extends Model
             'bags-shoes' => 'Leather goods & statement footwear',
             default => 'Explore our curated selection',
         };
+    }
+
+    public function isActive(): bool
+    {
+        return $this->status === 'active';
+    }
+
+    public static function tree(): Collection
+    {
+        $all = self::query()->withCount('products')->orderBy('title')->get()->keyBy('id');
+
+        return $all->where('parent_id', 0)->map(function ($category) use ($all) {
+            $category->setRelation('children', self::buildChildren($category->id, $all));
+
+            return $category;
+        })->values();
+    }
+
+    public static function flatTree(?int $excludeId = null, int $parentId = 0, string $prefix = ''): array
+    {
+        $options = [];
+
+        foreach (self::query()->where('parent_id', $parentId)->orderBy('title')->get() as $category) {
+            if ($excludeId && $category->id === $excludeId) {
+                continue;
+            }
+
+            $options[] = ['id' => $category->id, 'title' => $prefix.$category->title];
+            $options = array_merge($options, self::flatTree($excludeId, $category->id, $prefix.'— '));
+        }
+
+        return $options;
+    }
+
+    private static function buildChildren(int $parentId, Collection $all): Collection
+    {
+        return $all->where('parent_id', $parentId)->map(function ($category) use ($all) {
+            $category->setRelation('children', self::buildChildren($category->id, $all));
+
+            return $category;
+        })->values();
     }
 }

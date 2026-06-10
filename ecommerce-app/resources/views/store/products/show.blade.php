@@ -15,16 +15,27 @@
     </div>
 </section>
 
-<section class="mx-auto max-w-[1400px] px-6 py-12" x-data="{ selectedSize: '{{ $product->sizes[0] ?? '' }}', selectedColor: '{{ $product->colors[0] ?? '#1a1814' }}', qty: 1 }">
+<section class="mx-auto max-w-[1400px] px-6 py-12" x-data="{ selectedSize: '{{ $product->sizes[0] ?? '' }}', selectedColor: '{{ $product->colors[0] ?? '#1a1814' }}', qty: 1, activeImage: '{{ $galleryImages[0] ?? $product->imageUrl() }}' }">
     <div class="grid gap-12 lg:grid-cols-2 lg:gap-20">
-        <div class="relative bg-luxe-sand">
-            @if ($product->is_new)
-                <span class="absolute left-0 top-0 z-10 bg-luxe-ink px-4 py-2 text-[10px] font-semibold uppercase tracking-widest text-luxe-cream">New</span>
+        <div>
+            <div class="relative bg-luxe-sand">
+                @if ($product->is_new)
+                    <span class="absolute left-0 top-0 z-10 bg-luxe-ink px-4 py-2 text-[10px] font-semibold uppercase tracking-widest text-luxe-cream">New</span>
+                @endif
+                @if ($discount = $product->discountPercent())
+                    <span class="absolute right-0 top-0 z-10 bg-luxe-gold px-4 py-2 text-[10px] font-semibold uppercase tracking-widest text-luxe-ink">-{{ $discount }}%</span>
+                @endif
+                <img :src="activeImage" alt="{{ $product->name }}" class="aspect-[4/5] w-full object-cover">
+            </div>
+            @if (count($galleryImages) > 1)
+                <div class="mt-4 flex gap-2 overflow-x-auto">
+                    @foreach ($galleryImages as $image)
+                        <button type="button" @click="activeImage = '{{ $image }}'" class="shrink-0 border border-luxe-ink/10 p-0.5" :class="activeImage === '{{ $image }}' ? 'ring-2 ring-luxe-gold' : ''">
+                            <img src="{{ $image }}" alt="" class="h-16 w-16 object-cover">
+                        </button>
+                    @endforeach
+                </div>
             @endif
-            @if ($discount = $product->discountPercent())
-                <span class="absolute right-0 top-0 z-10 bg-luxe-gold px-4 py-2 text-[10px] font-semibold uppercase tracking-widest text-luxe-ink">-{{ $discount }}%</span>
-            @endif
-            <img src="{{ $product->image }}" alt="{{ $product->name }}" class="aspect-[4/5] w-full object-cover">
         </div>
 
         <div class="flex flex-col justify-center">
@@ -38,7 +49,10 @@
                 @endif
             </div>
 
-            <p class="mt-6 text-sm leading-relaxed text-luxe-muted">{{ $product->description }}</p>
+            <div class="mt-6 text-sm leading-relaxed text-luxe-muted">{!! $product->description !!}</div>
+            @if ($product->detail)
+                <div class="mt-4 text-sm leading-relaxed text-luxe-muted">{!! $product->detail !!}</div>
+            @endif
 
             <div class="mt-4 flex gap-6 text-xs uppercase tracking-widest">
                 <span class="{{ $product->inStock() ? 'text-luxe-ink' : 'text-red-600' }}">{{ $product->inStock() ? 'In Stock' : 'Sold Out' }}</span>

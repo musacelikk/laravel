@@ -23,14 +23,14 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('admin.categories.index') }}" class="nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.catalog.categories.index') }}" class="nav-link {{ request()->routeIs('admin.catalog.categories.*') ? 'active' : '' }}">
                         <ion-icon name="grid" class="nav-icon-ion icon-yellow"></ion-icon>
                         <p class="d-inline mb-0">Categories</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('admin.products.index') }}" class="nav-link {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.catalog.products.index') }}" class="nav-link {{ request()->routeIs('admin.catalog.products.*') ? 'active' : '' }}">
                         <ion-icon name="apps" class="nav-icon-ion icon-white"></ion-icon>
                         <p class="d-inline mb-0">Products</p>
                     </a>

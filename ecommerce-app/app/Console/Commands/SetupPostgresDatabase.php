@@ -42,6 +42,7 @@ class SetupPostgresDatabase extends Command
         }
 
         $this->call('migrate', ['--force' => true]);
+        $this->call('storage:link');
 
         $this->info('PostgreSQL kurulumu tamamlandı.');
 

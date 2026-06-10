@@ -13,36 +13,38 @@
 </div>
 
 <div class="form-group">
-    <label for="parent_id">Parent Category</label>
+    <label for="parent_id">Parent Category (Sub Category)</label>
     <select name="parent_id" id="parent_id" class="form-control">
         <option value="0" {{ old('parent_id', $category?->parent_id ?? 0) == 0 ? 'selected' : '' }}>None (Top Level)</option>
-        @foreach ($categories as $parent)
-            @if (!$category || $parent->id !== $category->id)
-                <option value="{{ $parent->id }}" {{ old('parent_id', $category?->parent_id) == $parent->id ? 'selected' : '' }}>{{ $parent->title }}</option>
-            @endif
+        @foreach ($parentOptions as $option)
+            <option value="{{ $option['id'] }}" {{ old('parent_id', $category?->parent_id) == $option['id'] ? 'selected' : '' }}>{{ $option['title'] }}</option>
         @endforeach
     </select>
 </div>
 
 <div class="form-group">
     <label for="keywords">Keywords</label>
-    <input type="text" name="keywords" id="keywords" class="form-control" value="{{ old('keywords', $category?->keywords) }}" placeholder="fashion, clothing, women">
+    <input type="text" name="keywords" id="keywords" class="form-control" value="{{ old('keywords', $category?->keywords) }}" placeholder="Computer Books, Php, Basic Python">
 </div>
 
 <div class="form-group">
     <label for="description">Description</label>
-    <textarea name="description" id="description" rows="3" class="form-control">{{ old('description', $category?->description) }}</textarea>
+    <textarea name="description" id="description" class="form-control summernote">{{ old('description', $category?->description) }}</textarea>
 </div>
 
 <div class="form-group">
-    <label for="image">Image URL</label>
-    <input type="url" name="image" id="image" class="form-control" value="{{ old('image', $category?->image) }}" placeholder="https://images.unsplash.com/...">
+    <label for="image">Image Upload</label>
+    <input type="file" name="image" id="image" class="form-control-file @error('image') is-invalid @enderror" accept="image/*">
+    @error('image')<span class="invalid-feedback d-block">{{ $message }}</span>@enderror
+    @if ($category?->imageUrl())
+        <img src="{{ $category->imageUrl() }}" alt="" class="mt-2 img-thumbnail" style="max-height:100px;">
+    @endif
 </div>
 
 <div class="form-group">
     <label for="status">Status *</label>
     <select name="status" id="status" class="form-control" required>
-        <option value="active" {{ old('status', $category?->status ?? 'active') === 'active' ? 'selected' : '' }}>Active</option>
-        <option value="inactive" {{ old('status', $category?->status) === 'inactive' ? 'selected' : '' }}>Inactive</option>
+        <option value="active" {{ old('status', $category?->status ?? 'active') === 'active' ? 'selected' : '' }}>True (Active)</option>
+        <option value="inactive" {{ old('status', $category?->status) === 'inactive' ? 'selected' : '' }}>False (Inactive)</option>
     </select>
 </div>

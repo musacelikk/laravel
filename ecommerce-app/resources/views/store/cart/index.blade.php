@@ -26,7 +26,7 @@
                 @foreach ($items as $item)
                     <div class="flex gap-6 py-8 first:pt-0">
                         <a href="{{ route('products.show', $item['product']) }}" class="shrink-0">
-                            <img src="{{ $item['product']->image }}" alt="{{ $item['product']->name }}" class="h-32 w-24 bg-luxe-sand object-cover">
+                            <img src="{{ $item['product']->imageUrl() }}" alt="{{ $item['product']->name }}" class="h-32 w-24 bg-luxe-sand object-cover">
                         </a>
                         <div class="flex min-w-0 flex-1 flex-col justify-between">
                             <div>

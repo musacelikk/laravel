@@ -10,7 +10,7 @@
         @endif
 
         <a href="{{ route('products.show', $product) }}">
-            <img src="{{ $product->image }}" alt="{{ $product->name }}" class="h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]" loading="lazy">
+            <img src="{{ $product->imageUrl() ?? 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=800&fit=crop' }}" alt="{{ $product->name }}" class="h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]" loading="lazy">
         </a>
 
         <div class="absolute inset-x-0 bottom-0 hidden translate-y-full bg-luxe-ink/90 p-4 transition duration-300 group-hover:translate-y-0 md:block">

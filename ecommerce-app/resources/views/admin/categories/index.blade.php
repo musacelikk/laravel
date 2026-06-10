@@ -1,99 +1,91 @@
 @extends('layouts.admin')
 
-@section('title', 'Categories')
-@section('page_title', 'Categories')
+@section('title', 'Category List')
+@section('page_title', 'Category List')
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-    <li class="breadcrumb-item active">Categories</li>
+    <li class="breadcrumb-item active">Category List</li>
 @endsection
 
 @section('content')
-<div class="row mb-3">
-    <div class="col-12">
-        <a href="{{ route('admin.categories.create') }}" class="btn btn-success">
-            <i class="fas fa-plus"></i> Add Category
-        </a>
-    </div>
-</div>
-
 <div class="row">
-    @foreach ($categories as $category)
-        <div class="col-md-6 col-lg-4">
-            <div class="card card-outline card-primary">
-                <div class="card-body box-profile">
-                    <div class="text-center mb-3">
-                        <img class="img-fluid rounded" src="{{ $category->coverImage() }}" alt="{{ $category->title }}" style="height: 140px; width: 100%; object-fit: cover;">
-                    </div>
-                    <h3 class="profile-username text-center">{{ $category->title }}</h3>
-                    <p class="text-muted text-center">{{ $category->tagline() }}</p>
-                    <ul class="list-group list-group-unbordered mb-3">
-                        <li class="list-group-item">
-                            <b>Products</b> <span class="float-right badge badge-primary">{{ $category->products_count }}</span>
-                        </li>
-                        <li class="list-group-item">
-                            <b>Slug</b> <span class="float-right text-muted">{{ $category->slug }}</span>
-                        </li>
-                        <li class="list-group-item">
-                            <b>Status</b>
-                            <span class="float-right badge badge-{{ $category->status === 'active' ? 'success' : 'secondary' }}">{{ $category->status }}</span>
-                        </li>
-                    </ul>
-                    <div class="btn-group btn-group-sm d-flex">
-                        <a href="{{ route('admin.categories.edit', $category) }}" class="btn btn-primary w-50"><i class="fas fa-edit"></i> Edit</a>
-                        <a href="{{ route('shop.category', $category) }}" class="btn btn-default w-50" target="_blank"><i class="fas fa-eye"></i> View</a>
-                    </div>
-                </div>
+    <div class="col-lg-3">
+        <div class="card">
+            <div class="card-header"><h3 class="card-title">Category Tree</h3></div>
+            <div class="card-body p-0">
+                <ul class="list-group list-group-flush">
+                    @include('admin.partials.category-tree', ['nodes' => $categoryTree])
+                </ul>
             </div>
         </div>
-    @endforeach
-</div>
+    </div>
 
-<div class="row">
-    <div class="col-12">
+    <div class="col-lg-9">
+        <div class="mb-3">
+            <a href="{{ route('admin.catalog.categories.create') }}" class="btn btn-info">
+                <i class="fas fa-plus"></i> Add Category
+            </a>
+        </div>
+
         <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Categories Table</h3>
-            </div>
             <div class="card-body table-responsive p-0">
-                <table class="table table-striped">
-                    <thead>
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-light">
                         <tr>
-                            <th>#</th>
+                            <th>Id</th>
                             <th>Title</th>
-                            <th>Slug</th>
                             <th>Keywords</th>
-                            <th>Products</th>
+                            <th>Description</th>
+                            <th>Image</th>
                             <th>Status</th>
-                            <th>Actions</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                            <th>Show</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($categories as $category)
                             <tr>
                                 <td>{{ $category->id }}</td>
-                                <td>{{ $category->title }}</td>
-                                <td><code>{{ $category->slug }}</code></td>
-                                <td>{{ $category->keywords ?? '—' }}</td>
-                                <td><span class="badge badge-info">{{ $category->products_count }}</span></td>
-                                <td><span class="badge badge-{{ $category->status === 'active' ? 'success' : 'secondary' }}">{{ $category->status }}</span></td>
                                 <td>
-                                    <a href="{{ route('admin.categories.edit', $category) }}" class="btn btn-xs btn-primary"><i class="fas fa-edit"></i></a>
-                                    <form action="{{ route('admin.categories.destroy', $category) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this category?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-xs btn-danger"><i class="fas fa-trash"></i></button>
+                                    @if ($category->parent_id)
+                                        <small class="text-muted">↳</small>
+                                    @endif
+                                    {{ $category->title }}
+                                </td>
+                                <td>{{ Str::limit($category->keywords, 30) ?: '—' }}</td>
+                                <td>{{ Str::limit(strip_tags($category->description), 40) ?: '—' }}</td>
+                                <td>
+                                    @if ($category->imageUrl())
+                                        <img src="{{ $category->imageUrl() }}" alt="" class="img-thumbnail" style="height:40px;width:40px;object-fit:cover;">
+                                    @else
+                                        <span class="text-muted">—</span>
+                                    @endif
+                                </td>
+                                <td>{{ $category->isActive() ? 'True' : 'False' }}</td>
+                                <td>
+                                    <a href="{{ route('admin.catalog.categories.edit', $category) }}" class="btn btn-primary btn-sm">Edit</a>
+                                </td>
+                                <td>
+                                    <form action="{{ route('admin.catalog.categories.destroy', $category) }}" method="POST" onsubmit="return confirm('Delete?')">
+                                        @csrf @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                     </form>
+                                </td>
+                                <td>
+                                    <a href="{{ route('admin.catalog.categories.show', $category) }}" class="btn btn-success btn-sm">Show</a>
                                 </td>
                             </tr>
                         @empty
-                            <tr>
-                                <td colspan="7" class="text-center text-muted py-4">No categories yet. <a href="{{ route('admin.categories.create') }}">Add one</a></td>
-                            </tr>
+                            <tr><td colspan="9" class="text-center py-4 text-muted">No categories.</td></tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
+            @if ($categories->hasPages())
+                <div class="card-footer">{{ $categories->links() }}</div>
+            @endif
         </div>
     </div>
 </div>

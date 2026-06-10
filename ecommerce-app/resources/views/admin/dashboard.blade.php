@@ -140,7 +140,7 @@
                             @foreach ($products as $product)
                                 <tr>
                                     <td>
-                                        <img src="{{ $product->image }}" alt="" class="img-size-50 mr-2 rounded">
+                                        <img src="{{ $product->imageUrl() }}" alt="" class="img-size-50 mr-2 rounded">
                                         {{ $product->name }}
                                         @if ($product->is_new)
                                             <span class="badge badge-danger">NEW</span>
@@ -171,7 +171,7 @@
                 </div>
             </div>
             <div class="card-footer clearfix">
-                <a href="{{ route('admin.products.index') }}" class="btn btn-sm btn-info float-right">View All Products</a>
+                <a href="{{ route('admin.catalog.products.index') }}" class="btn btn-sm btn-info float-right">View All Products</a>
             </div>
         </div>
     </div>

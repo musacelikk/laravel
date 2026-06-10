@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\ImageUploader;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -92,5 +93,27 @@ class Product extends Model
     public function inStock(): bool
     {
         return $this->quantity > 0;
+    }
+
+    public function imageUrl(): ?string
+    {
+        return app(ImageUploader::class)->url($this->image);
+    }
+
+    public function allImages(): array
+    {
+        $urls = [];
+
+        if ($main = $this->imageUrl()) {
+            $urls[] = $main;
+        }
+
+        foreach ($this->images as $galleryImage) {
+            if ($url = $galleryImage->imageUrl()) {
+                $urls[] = $url;
+            }
+        }
+
+        return array_values(array_unique($urls));
     }
 }
